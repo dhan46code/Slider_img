@@ -1,13 +1,116 @@
-body {
+*,
+::after,
+::before {
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  background: #222;
+  color: #fff;
+}
+
+.title {
+  margin: 2rem 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5rem;
+}
+
+.section {
+  margin: 3rem 0;
+}
+
+.section-center {
+  position: relative;
+  width: 90vw;
+  max-width: 720px;
+  height: 500px;
+  padding: 1rem;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  /* overflow: hidden; */
+}
+
+.img-photo {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+article {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  content: '';
+  top: 30px;
+  left: 0;
+  opacity: 0;
+}
+
+article p {
+  position: absolute;
+  content: '';
+  top: 0;
+  right: 0;
+  text-align: center;
+  font-size: 1rem;
+  color: #fff;
+  background: rgba(17, 16, 16, 0.822);
+  padding: 0.5rem;
+  text-transform: capitalize;
+  letter-spacing: 1.2px;
+}
+.prev,
+.next {
+  position: absolute;
+  content: '';
+  top: 150px;
+  transform: translateY(50%);
+  background: #222;
+  border: none;
+  color: #fff;
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+}
+
+@media screen and (min-width: 647px) {
+  .section {
+    margin: 2rem 0;
+  }
+  .next,
+  .prev {
+    top: 240px;
+  }
+  .img-photo {
+    height: 400px;
+  }
+}
+
+article.activeSlide {
+  opacity: 1;
+  transform: translateX(0);
+}
+article.nextSlide {
+  transform: translateX(100%);
+}
+
+article.lastSlide {
+  transform: translateX(-100%);
 }

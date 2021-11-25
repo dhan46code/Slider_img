@@ -1,17 +1,71 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect } from 'react';
+import ReactDom from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { data } from './data';
+import { AiOutlineArrowRight, AiOutlineArrowLeft } from 'react-icons/ai';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const App = () => {
+  const [showImages, setShowImages] = useState(data);
+  const [index, setIndex] = useState(1);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  useEffect(() => {
+    const lastPosition = showImages.length - 1;
+    if (index < 0) {
+      return setIndex(lastPosition);
+    }
+    if (index > lastPosition) {
+      return setIndex(0);
+    }
+  }, [showImages, index]);
+
+  // autoplay
+  useEffect(() => {
+    const slide = setInterval(() => {
+      setIndex(index + 1);
+    }, 3000);
+    return () => {
+      clearInterval(slide);
+    };
+  });
+  return (
+    <section className='section'>
+      <div className='title'>
+        <h2>Gallery</h2>
+      </div>
+      <div className='section-center'>
+        {showImages.map((images, imageIndex) => {
+          const { id, name, img } = images;
+
+          // checkPosition
+          let position = 'nextSlide';
+
+          if (imageIndex === index) {
+            position = 'activeSlide';
+          }
+          if (
+            imageIndex === index - 1 ||
+            (index === 0 && imageIndex === showImages.length - 1)
+          ) {
+            position = 'lastSlide';
+          }
+          return (
+            <article key={id} className={position}>
+              <a href={img}>
+                <img src={img} alt='' className='img-photo' />
+                <p>{name}</p>
+              </a>
+            </article>
+          );
+        })}
+        <button className='prev' onClick={() => setIndex(index - 1)}>
+          <AiOutlineArrowLeft />
+        </button>
+        <button className='next' onClick={() => setIndex(index + 1)}>
+          <AiOutlineArrowRight />
+        </button>
+      </div>
+    </section>
+  );
+};
+
+ReactDom.render(<App />, document.getElementById('root'));
